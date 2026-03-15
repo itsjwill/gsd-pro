@@ -1,12 +1,14 @@
 <div align="center">
 
-# GET SHIT DONE
+# GET SHIT DONE — 2.0 Fork
 
 **English** · [简体中文](README.zh-CN.md)
 
 **A light-weight and powerful meta-prompting, context engineering and spec-driven development system for Claude Code, OpenCode, Gemini CLI, and Codex.**
 
 **Solves context rot — the quality degradation that happens as Claude fills its context window.**
+
+> **This fork** adds rollback/recovery, adaptive context loading, and model routing intelligence on top of the [original GSD](https://github.com/glittercowboy/get-shit-done) by TÂCHES. Synced with upstream v1.24.0.
 
 [![npm version](https://img.shields.io/npm/v/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
 [![npm downloads](https://img.shields.io/npm/dm/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
@@ -705,6 +707,38 @@ These community ports pioneered multi-runtime support:
 |---------|----------|-------------|
 | [gsd-opencode](https://github.com/rokicool/gsd-opencode) | OpenCode | Original OpenCode adaptation |
 | gsd-gemini (archived) | Gemini CLI | Original Gemini adaptation by uberfuzzy |
+
+---
+
+## 2.0 Fork Enhancements
+
+This fork adds features not yet in upstream:
+
+### Rollback & Recovery
+Safety net for experimentation — auto-created git checkpoints with one-command undo.
+
+```
+/gsd:rollback last          # Undo last plan execution
+/gsd:rollback 02-01         # Rollback to specific checkpoint
+/gsd:recover                # Diagnose and fix interrupted states
+/gsd:resume-task <id>       # Resume interrupted subagent
+```
+
+### Adaptive Context Loading
+5-tier context system that loads only what's needed ([details](get-shit-done/core/context-loader.md)):
+- **Tier 0** (~200 tokens): Position + config only
+- **Tier 1** (~2K tokens): Planning context
+- **Tier 2** (~3K tokens): Execution context + dependency graph
+- **Tier 3** (~5K tokens): Brownfield codebase docs
+- **Tier 4** (~10K+ tokens): Full context for milestones
+
+Includes subsystem auto-detection (auth, database, API, UI keywords) and frontmatter dependency graphs.
+
+### Multi-Model Routing Reference
+Routing guide for optimal cost/quality balance ([details](get-shit-done/core/model-router.md)):
+- **Haiku**: File checks, validation, progress (92% cost savings)
+- **Sonnet**: Code generation, planning (default)
+- **Opus**: Architecture, research, complex debugging
 
 ---
 
