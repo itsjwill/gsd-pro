@@ -1,7 +1,7 @@
 ---
 name: gsd:verify-work
-description: Guide manual user acceptance testing of recently built features
-argument-hint: "[optional: phase or plan number, e.g., '4' or '04-02']"
+description: Validate built features through conversational UAT
+argument-hint: "[phase number, e.g., '4']"
 allowed-tools:
   - Read
   - Bash
@@ -9,63 +9,30 @@ allowed-tools:
   - Grep
   - Edit
   - Write
-  - AskUserQuestion
+  - Task
 ---
-
 <objective>
-Guide the user through manual acceptance testing of recently built features.
+Validate built features through conversational testing with persistent state.
 
-Purpose: Validate that what Claude thinks was built actually works from the user's perspective. The USER performs all testing — Claude generates the test checklist, guides the process, and captures issues.
+Purpose: Confirm what Claude built actually works from user's perspective. One test at a time, plain text responses, no interrogation. When issues are found, automatically diagnose, plan fixes, and prepare for execution.
 
-Output: Validation of features, any issues logged to phase-scoped ISSUES.md
+Output: {phase_num}-UAT.md tracking all test results. If issues found: diagnosed gaps, verified fix plans ready for /gsd:execute-phase
 </objective>
 
 <execution_context>
 @~/.claude/get-shit-done/workflows/verify-work.md
-@~/.claude/get-shit-done/templates/uat-issues.md
+@~/.claude/get-shit-done/templates/UAT.md
 </execution_context>
 
 <context>
-Scope: $ARGUMENTS (optional)
-- If provided: Test specific phase or plan (e.g., "4" or "04-02")
-- If not provided: Test most recently completed plan
+Phase: $ARGUMENTS (optional)
+- If provided: Test specific phase (e.g., "4")
+- If not provided: Check for active sessions or prompt for phase
 
-**Load project state:**
-@.planning/STATE.md
-
-**Load roadmap:**
-@.planning/ROADMAP.md
+Context files are resolved inside the workflow (`init verify-work`) and delegated via `<files_to_read>` blocks.
 </context>
 
 <process>
-1. Validate arguments (if provided, parse as phase or plan number)
-2. Find relevant SUMMARY.md (specified or most recent)
-3. Follow verify-work.md workflow:
-   - Extract testable deliverables
-   - Generate test checklist
-   - Guide through each test via AskUserQuestion
-   - Collect and categorize issues
-   - Log issues to `.planning/phases/XX-name/{phase}-{plan}-ISSUES.md`
-   - Present summary with verdict
-4. Offer next steps based on results:
-   - If all passed: Continue to next phase
-   - If issues found: `/gsd:plan-fix {phase} {plan}` to create fix plan
+Execute the verify-work workflow from @~/.claude/get-shit-done/workflows/verify-work.md end-to-end.
+Preserve all workflow gates (session management, test presentation, diagnosis, fix planning, routing).
 </process>
-
-<anti_patterns>
-- Don't run automated tests (that's for CI/test suites)
-- Don't make assumptions about test results — USER reports outcomes
-- Don't skip the guidance — walk through each test
-- Don't dismiss minor issues — log everything user reports
-- Don't fix issues during testing — capture for later
-</anti_patterns>
-
-<success_criteria>
-- [ ] Test scope identified from SUMMARY.md
-- [ ] Checklist generated based on deliverables
-- [ ] User guided through each test
-- [ ] All test results captured (pass/fail/partial/skip)
-- [ ] Any issues logged to phase-scoped ISSUES.md (not global)
-- [ ] Summary presented with verdict
-- [ ] User knows next steps based on results
-</success_criteria>

@@ -1,6 +1,6 @@
 ---
 name: gsd:map-codebase
-description: Analyze codebase with parallel Explore agents to produce .planning/codebase/ documents
+description: Analyze codebase with parallel mapper agents to produce .planning/codebase/ documents
 argument-hint: "[optional: specific area to map, e.g., 'api' or 'auth']"
 allowed-tools:
   - Read
@@ -12,22 +12,15 @@ allowed-tools:
 ---
 
 <objective>
-Analyze existing codebase using parallel Explore agents to produce structured codebase documents.
+Analyze existing codebase using parallel gsd-codebase-mapper agents to produce structured codebase documents.
 
-This command spawns multiple Explore agents to analyze different aspects of the codebase in parallel, each with fresh context.
+Each mapper agent explores a focus area and **writes documents directly** to `.planning/codebase/`. The orchestrator only receives confirmations, keeping context usage minimal.
 
 Output: .planning/codebase/ folder with 7 structured documents about the codebase state.
 </objective>
 
 <execution_context>
 @~/.claude/get-shit-done/workflows/map-codebase.md
-@~/.claude/get-shit-done/templates/codebase/stack.md
-@~/.claude/get-shit-done/templates/codebase/architecture.md
-@~/.claude/get-shit-done/templates/codebase/structure.md
-@~/.claude/get-shit-done/templates/codebase/conventions.md
-@~/.claude/get-shit-done/templates/codebase/testing.md
-@~/.claude/get-shit-done/templates/codebase/integrations.md
-@~/.claude/get-shit-done/templates/codebase/concerns.md
 </execution_context>
 
 <context>
@@ -58,26 +51,20 @@ Check for .planning/STATE.md - loads context if project already initialized
 <process>
 1. Check if .planning/codebase/ already exists (offer to refresh or skip)
 2. Create .planning/codebase/ directory structure
-3. Spawn 4 parallel Explore agents to analyze codebase:
-   - Agent 1: Stack + Integrations (technology focus)
-   - Agent 2: Architecture + Structure (organization focus)
-   - Agent 3: Conventions + Testing (quality focus)
-   - Agent 4: Concerns (issues focus)
-4. Wait for all agents to complete, collect findings
-5. Write 7 codebase documents using templates:
-   - STACK.md - Languages, frameworks, key dependencies
-   - ARCHITECTURE.md - System design, patterns, data flow
-   - STRUCTURE.md - Directory layout, module organization
-   - CONVENTIONS.md - Code style, naming, patterns
-   - TESTING.md - Test structure, coverage, practices
-   - INTEGRATIONS.md - APIs, databases, external services
-   - CONCERNS.md - Technical debt, risks, issues
-6. Offer next steps (typically: /gsd:new-project or /gsd:plan-phase)
+3. Spawn 4 parallel gsd-codebase-mapper agents:
+   - Agent 1: tech focus → writes STACK.md, INTEGRATIONS.md
+   - Agent 2: arch focus → writes ARCHITECTURE.md, STRUCTURE.md
+   - Agent 3: quality focus → writes CONVENTIONS.md, TESTING.md
+   - Agent 4: concerns focus → writes CONCERNS.md
+4. Wait for agents to complete, collect confirmations (NOT document contents)
+5. Verify all 7 documents exist with line counts
+6. Commit codebase map
+7. Offer next steps (typically: /gsd:new-project or /gsd:plan-phase)
 </process>
 
 <success_criteria>
 - [ ] .planning/codebase/ directory created
-- [ ] All 7 codebase documents written
+- [ ] All 7 codebase documents written by mapper agents
 - [ ] Documents follow template structure
 - [ ] Parallel agents completed without errors
 - [ ] User knows next steps

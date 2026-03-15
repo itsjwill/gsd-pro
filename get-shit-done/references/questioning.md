@@ -1,162 +1,162 @@
 <questioning_guide>
-The initialization phase is dream extraction, not requirements gathering. You're helping the user discover and articulate what they want to build. This isn't a contract negotiation — it's collaborative thinking.
+
+Project initialization is dream extraction, not requirements gathering. You're helping the user discover and articulate what they want to build. This isn't a contract negotiation — it's collaborative thinking.
 
 <philosophy>
+
 **You are a thinking partner, not an interviewer.**
 
 The user often has a fuzzy idea. Your job is to help them sharpen it. Ask questions that make them think "oh, I hadn't considered that" or "yes, that's exactly what I mean."
 
-Don't interrogate. Collaborate.
+Don't interrogate. Collaborate. Don't follow a script. Follow the thread.
+
 </philosophy>
 
-<critical_rule>
-**ALL questions MUST use AskUserQuestion.**
+<the_goal>
 
-Never ask questions inline as plain text. Every exploration question uses the AskUserQuestion tool with thoughtful options that help the user articulate their vision.
+By the end of questioning, you need enough clarity to write a PROJECT.md that downstream phases can act on:
 
-This applies to:
-- Opening questions ("What do you want to build?")
-- Follow-up questions ("You mentioned X — what would that look like?")
-- Sharpening questions ("What's essential vs nice-to-have?")
-- Boundary questions ("What's out of scope?")
-- Decision gates ("Ready to proceed?")
+- **Research** needs: what domain to research, what the user already knows, what unknowns exist
+- **Requirements** needs: clear enough vision to scope v1 features
+- **Roadmap** needs: clear enough vision to decompose into phases, what "done" looks like
+- **plan-phase** needs: specific requirements to break into tasks, context for implementation choices
+- **execute-phase** needs: success criteria to verify against, the "why" behind requirements
 
-The AskUserQuestion format helps users think by presenting concrete options to react to, rather than facing a blank text field.
-</critical_rule>
+A vague PROJECT.md forces every downstream phase to guess. The cost compounds.
 
-<conversation_arc>
-**1. Open**
+</the_goal>
 
-Use AskUserQuestion:
-- header: "Vision"
-- question: "What do you want to build?"
-- options: Contextual starting points if available, otherwise broad categories + "Let me describe it"
+<how_to_question>
 
-Let them respond. Then follow up based on what they said.
+**Start open.** Let them dump their mental model. Don't interrupt with structure.
 
-**2. Follow the thread**
+**Follow energy.** Whatever they emphasized, dig into that. What excited them? What problem sparked this?
 
-Whatever they said — dig into it. What excited them? What problem sparked this?
+**Challenge vagueness.** Never accept fuzzy answers. "Good" means what? "Users" means who? "Simple" means how?
 
-Use AskUserQuestion with options that probe what they mentioned:
-- header: "[Topic they mentioned]"
-- question: "You mentioned [X] — what would that actually look like?"
-- options: 2-3 interpretations of what they might mean + "Something else"
+**Make the abstract concrete.** "Walk me through using this." "What does that actually look like?"
 
-**3. Sharpen the core**
+**Clarify ambiguity.** "When you say Z, do you mean A or B?" "You mentioned X — tell me more."
 
-Help them distinguish the essential from the nice-to-have.
+**Know when to stop.** When you understand what they want, why they want it, who it's for, and what done looks like — offer to proceed.
 
-Use AskUserQuestion:
-- header: "Core"
-- question: "If you could only nail one thing, what would it be?"
-- options: Key features/aspects they've mentioned + "All equally important" + "Something else"
+</how_to_question>
 
-**4. Find the boundaries**
+<question_types>
 
-What is this NOT? Explicit exclusions prevent scope creep later.
+Use these as inspiration, not a checklist. Pick what's relevant to the thread.
 
-Use AskUserQuestion:
-- header: "Scope"
-- question: "What's explicitly NOT in v1?"
-- options: Things that might be tempting to include + "Nothing specific" + "Let me list them"
+**Motivation — why this exists:**
+- "What prompted this?"
+- "What are you doing today that this replaces?"
+- "What would you do if this existed?"
 
-**5. Ground in reality**
+**Concreteness — what it actually is:**
+- "Walk me through using this"
+- "You said X — what does that actually look like?"
+- "Give me an example"
 
-Only ask about constraints that actually exist. Don't invent concerns.
+**Clarification — what they mean:**
+- "When you say Z, do you mean A or B?"
+- "You mentioned X — tell me more about that"
 
-Use AskUserQuestion:
-- header: "Constraints"
-- question: "Any hard constraints?"
-- options: Common constraint types relevant to context + "None" + "Yes, let me explain"
-</conversation_arc>
+**Success — how you'll know it's working:**
+- "How will you know this is working?"
+- "What does done look like?"
 
-<good_vs_bad>
-**BAD — Inline text questions:**
-- Asking "What is your target audience?" as plain text
-- Free-form "Tell me more about X" without options
-- Any question that leaves the user staring at a blank input
+</question_types>
 
-**GOOD — AskUserQuestion with options:**
-- header: "Audience"
-- question: "Who is this for?"
-- options: ["Just me", "My team", "Public users", "Let me describe"]
+<using_askuserquestion>
 
-**BAD — Corporate speak:**
-- "What are your success criteria?"
-- "What's your budget?"
-- "Have you done X before?" (irrelevant — Claude builds)
+Use AskUserQuestion to help users think by presenting concrete options to react to.
 
-**GOOD — Concrete options that help them think:**
-- header: "Done"
-- question: "How will you know this is working?"
-- options: ["I'm using it daily", "Specific metric improves", "Replaces current workflow", "Let me describe"]
+**Good options:**
+- Interpretations of what they might mean
+- Specific examples to confirm or deny
+- Concrete choices that reveal priorities
 
-**BAD — Checklist walking:**
-- Ask about audience → ask about constraints → ask about tech stack (regardless of what user said)
+**Bad options:**
+- Generic categories ("Technical", "Business", "Other")
+- Leading options that presume an answer
+- Too many options (2-4 is ideal)
+- Headers longer than 12 characters (hard limit — validation will reject them)
 
-**GOOD — Following threads with targeted options:**
-- User mentions frustration → AskUserQuestion with specific frustration interpretations as options → their selection reveals the core value prop
-</good_vs_bad>
+**Example — vague answer:**
+User says "it should be fast"
 
-<probing_techniques>
-When answers are vague, don't accept them. Probe with AskUserQuestion:
+- header: "Fast"
+- question: "Fast how?"
+- options: ["Sub-second response", "Handles large datasets", "Quick to build", "Let me explain"]
 
-**"Make it good"** →
-- header: "Good"
-- question: "What does 'good' mean here?"
-- options: ["Fast", "Beautiful", "Simple", "Reliable", "Let me describe"]
+**Example — following a thread:**
+User mentions "frustrated with current tools"
 
-**"Users"** →
-- header: "Users"
-- question: "Which users?"
-- options: ["Just me", "My team", "Specific type of person", "Let me describe"]
+- header: "Frustration"
+- question: "What specifically frustrates you?"
+- options: ["Too many clicks", "Missing features", "Unreliable", "Let me explain"]
 
-**"It should be easy to use"** →
-- header: "Easy"
-- question: "Easy how?"
-- options: ["Fewer clicks", "No learning curve", "Works on mobile", "Let me describe"]
+**Tip for users — modifying an option:**
+Users who want a slightly modified version of an option can select "Other" and reference the option by number: `#1 but for finger joints only` or `#2 with pagination disabled`. This avoids retyping the full option text.
 
-Specifics are everything. Vague in = vague out.
-</probing_techniques>
+</using_askuserquestion>
 
-<coverage_check>
-By the end of questioning, you should understand:
+<freeform_rule>
 
-- [ ] What they're building (the thing)
-- [ ] Why it needs to exist (the motivation)
+**When the user wants to explain freely, STOP using AskUserQuestion.**
+
+If a user selects "Other" and their response signals they want to describe something in their own words (e.g., "let me describe it", "I'll explain", "something else", or any open-ended reply that isn't choosing/modifying an existing option), you MUST:
+
+1. **Ask your follow-up as plain text** — NOT via AskUserQuestion
+2. **Wait for them to type at the normal prompt**
+3. **Resume AskUserQuestion** only after processing their freeform response
+
+The same applies if YOU include a freeform-indicating option (like "Let me explain" or "Describe in detail") and the user selects it.
+
+**Wrong:** User says "let me describe it" → AskUserQuestion("What feature?", ["Feature A", "Feature B", "Describe in detail"])
+**Right:** User says "let me describe it" → "Go ahead — what are you thinking?"
+
+</freeform_rule>
+
+<context_checklist>
+
+Use this as a **background checklist**, not a conversation structure. Check these mentally as you go. If gaps remain, weave questions naturally.
+
+- [ ] What they're building (concrete enough to explain to a stranger)
+- [ ] Why it needs to exist (the problem or desire driving it)
 - [ ] Who it's for (even if just themselves)
-- [ ] What "done" looks like (measurable outcome)
-- [ ] What's NOT in scope (boundaries)
-- [ ] Any real constraints (tech, timeline, compatibility)
-- [ ] What exists already (greenfield vs brownfield)
+- [ ] What "done" looks like (observable outcomes)
 
-If gaps remain, weave questions naturally into the conversation. Don't suddenly switch to checklist mode.
-</coverage_check>
+Four things. If they volunteer more, capture it.
+
+</context_checklist>
 
 <decision_gate>
-When you feel you understand the vision, use AskUserQuestion:
+
+When you could write a clear PROJECT.md, offer to proceed:
 
 - header: "Ready?"
-- question: "Ready to create PROJECT.md, or explore more?"
-- options (ALL THREE REQUIRED):
-  - "Create PROJECT.md" - Finalize and continue
-  - "Ask more questions" - I'll dig into areas we haven't covered
-  - "Let me add context" - You have more to share
+- question: "I think I understand what you're after. Ready to create PROJECT.md?"
+- options:
+  - "Create PROJECT.md" — Let's move forward
+  - "Keep exploring" — I want to share more / ask me more
 
-If "Ask more questions" → identify gaps from coverage check → ask naturally → return to gate.
+If "Keep exploring" — ask what they want to add or identify gaps and probe naturally.
 
 Loop until "Create PROJECT.md" selected.
+
 </decision_gate>
 
 <anti_patterns>
-- **Interrogation** - Firing questions without building on answers
-- **Checklist walking** - Going through domains regardless of conversation flow
-- **Corporate speak** - "What are your success criteria?" "Who are your stakeholders?"
-- **Rushing** - Minimizing questions to get to "the work"
-- **Assuming** - Filling gaps with assumptions instead of asking
-- **User skills** - NEVER ask about user's technical experience. Claude builds — user's skills are irrelevant.
-- **Premature constraints** - Asking about tech stack before understanding the idea
-- **Shallow acceptance** - Taking vague answers without probing for specifics
+
+- **Checklist walking** — Going through domains regardless of what they said
+- **Canned questions** — "What's your core value?" "What's out of scope?" regardless of context
+- **Corporate speak** — "What are your success criteria?" "Who are your stakeholders?"
+- **Interrogation** — Firing questions without building on answers
+- **Rushing** — Minimizing questions to get to "the work"
+- **Shallow acceptance** — Taking vague answers without probing
+- **Premature constraints** — Asking about tech stack before understanding the idea
+- **User skills** — NEVER ask about user's technical experience. Claude builds.
+
 </anti_patterns>
+
 </questioning_guide>

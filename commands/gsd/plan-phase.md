@@ -1,67 +1,45 @@
 ---
 name: gsd:plan-phase
-description: Create detailed execution plan for a phase (PLAN.md)
-argument-hint: "[phase]"
+description: Create detailed phase plan (PLAN.md) with verification loop
+argument-hint: "[phase] [--auto] [--research] [--skip-research] [--gaps] [--skip-verify] [--prd <file>]"
+agent: gsd-planner
 allowed-tools:
   - Read
-  - Bash
   - Write
+  - Bash
   - Glob
   - Grep
-  - AskUserQuestion
+  - Task
   - WebFetch
   - mcp__context7__*
 ---
-
 <objective>
-Create executable phase prompt with discovery, context injection, and task breakdown.
+Create executable phase prompts (PLAN.md files) for a roadmap phase with integrated research and verification.
 
-Purpose: Break down roadmap phases into concrete, executable PLAN.md files that Claude can execute.
-Output: One or more PLAN.md files in the phase directory (.planning/phases/XX-name/{phase}-{plan}-PLAN.md)
+**Default flow:** Research (if needed) → Plan → Verify → Done
+
+**Orchestrator role:** Parse arguments, validate phase, research domain (unless skipped), spawn gsd-planner, verify with gsd-plan-checker, iterate until pass or max iterations, present results.
 </objective>
 
 <execution_context>
 @~/.claude/get-shit-done/workflows/plan-phase.md
-@~/.claude/get-shit-done/templates/phase-prompt.md
-@~/.claude/get-shit-done/references/plan-format.md
-@~/.claude/get-shit-done/references/scope-estimation.md
-@~/.claude/get-shit-done/references/checkpoints.md
-@~/.claude/get-shit-done/references/tdd.md
+@~/.claude/get-shit-done/references/ui-brand.md
 </execution_context>
 
 <context>
-Phase number: $ARGUMENTS (optional - auto-detects next unplanned phase if not provided)
+Phase number: $ARGUMENTS (optional — auto-detects next unplanned phase if omitted)
 
-**Load project state first:**
-@.planning/STATE.md
+**Flags:**
+- `--research` — Force re-research even if RESEARCH.md exists
+- `--skip-research` — Skip research, go straight to planning
+- `--gaps` — Gap closure mode (reads VERIFICATION.md, skips research)
+- `--skip-verify` — Skip verification loop
+- `--prd <file>` — Use a PRD/acceptance criteria file instead of discuss-phase. Parses requirements into CONTEXT.md automatically. Skips discuss-phase entirely.
 
-**Load roadmap:**
-@.planning/ROADMAP.md
-
-**Load phase context if exists (created by /gsd:discuss-phase):**
-Check for and read `.planning/phases/XX-name/{phase}-CONTEXT.md` - contains research findings, clarifications, and decisions from phase discussion.
-
-**Load codebase context if exists:**
-Check for `.planning/codebase/` and load relevant documents based on phase type.
+Normalize phase input in step 2 before any directory lookups.
 </context>
 
 <process>
-1. Check .planning/ directory exists (error if not - user should run /gsd:new-project)
-2. If phase number provided via $ARGUMENTS, validate it exists in roadmap
-3. If no phase number, detect next unplanned phase from roadmap
-4. Follow plan-phase.md workflow:
-   - Load project state and accumulated decisions
-   - Perform mandatory discovery (Level 0-3 as appropriate)
-   - Read project history (prior decisions, issues, concerns)
-   - Break phase into tasks
-   - Estimate scope and split into multiple plans if needed
-   - Create PLAN.md file(s) with executable structure
+Execute the plan-phase workflow from @~/.claude/get-shit-done/workflows/plan-phase.md end-to-end.
+Preserve all workflow gates (validation, research, planning, verification loop, routing).
 </process>
-
-<success_criteria>
-
-- One or more PLAN.md files created in .planning/phases/XX-name/
-- Each plan has: objective, execution_context, context, tasks, verification, success_criteria, output
-- Tasks are specific enough for Claude to execute
-- User knows next steps (execute plan or review/adjust)
-  </success_criteria>

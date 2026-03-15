@@ -15,7 +15,7 @@ Template for `.planning/codebase/STRUCTURE.md` - captures physical file organiza
 
 ## Directory Layout
 
-[ASCII tree of top-level directories with purpose]
+[ASCII box-drawing tree of top-level directories with purpose - use ├── └── │ characters for tree structure only]
 
 ```
 [project-root]/
@@ -166,7 +166,7 @@ get-shit-done/
 **get-shit-done/workflows/**
 - Purpose: Reusable multi-step procedures
 - Contains: Workflow definitions called by commands
-- Key files: execute-phase.md, research-phase.md
+- Key files: execute-plan.md, research-phase.md
 - Subdirectories: None
 
 ## Key File Locations
@@ -247,7 +247,7 @@ get-shit-done/
 
 <guidelines>
 **What belongs in STRUCTURE.md:**
-- Directory layout (ASCII tree)
+- Directory layout (ASCII box-drawing tree for structure visualization)
 - Purpose of each directory
 - Key file locations (entry points, configs, core logic)
 - Naming conventions
@@ -267,7 +267,7 @@ get-shit-done/
 - Locate entry points, configs, and main logic areas
 - Keep directory tree concise (max 2-3 levels)
 
-**ASCII tree format:**
+**Tree format (ASCII box-drawing characters for structure only):**
 ```
 root/
 ├── dir1/           # Purpose

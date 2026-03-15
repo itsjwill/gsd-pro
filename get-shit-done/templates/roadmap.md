@@ -11,15 +11,6 @@ Template for `.planning/ROADMAP.md`.
 
 [One paragraph describing the journey from start to finish]
 
-## Domain Expertise
-
-[Paths to domain skills that inform planning. These SKILL.md files serve as indexes - during phase planning, read them to find relevant references for each phase type.]
-
-- ~/.claude/skills/expertise/[domain]/SKILL.md
-[Add additional domains if project spans multiple (e.g., ISF shaders + macOS app)]
-
-Or: None
-
 ## Phases
 
 **Phase Numbering:**
@@ -38,7 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 ### Phase 1: [Name]
 **Goal**: [What this phase delivers]
 **Depends on**: Nothing (first phase)
-**Research**: Unlikely (established patterns)
+**Requirements**: [REQ-01, REQ-02, REQ-03]  <!-- brackets optional, parser handles both formats -->
+**Success Criteria** (what must be TRUE):
+  1. [Observable behavior from user perspective]
+  2. [Observable behavior from user perspective]
+  3. [Observable behavior from user perspective]
 **Plans**: [Number of plans, e.g., "3 plans" or "TBD"]
 
 Plans:
@@ -49,8 +44,10 @@ Plans:
 ### Phase 2: [Name]
 **Goal**: [What this phase delivers]
 **Depends on**: Phase 1
-**Research**: Likely (new integration)
-**Research topics**: [What needs investigating]
+**Requirements**: [REQ-04, REQ-05]
+**Success Criteria** (what must be TRUE):
+  1. [Observable behavior from user perspective]
+  2. [Observable behavior from user perspective]
 **Plans**: [Number of plans]
 
 Plans:
@@ -60,6 +57,8 @@ Plans:
 ### Phase 2.1: Critical Fix (INSERTED)
 **Goal**: [Urgent work inserted between phases]
 **Depends on**: Phase 2
+**Success Criteria** (what must be TRUE):
+  1. [What the fix achieves]
 **Plans**: 1 plan
 
 Plans:
@@ -68,8 +67,11 @@ Plans:
 ### Phase 3: [Name]
 **Goal**: [What this phase delivers]
 **Depends on**: Phase 2
-**Research**: Likely (external API)
-**Research topics**: [What needs investigating]
+**Requirements**: [REQ-06, REQ-07, REQ-08]
+**Success Criteria** (what must be TRUE):
+  1. [Observable behavior from user perspective]
+  2. [Observable behavior from user perspective]
+  3. [Observable behavior from user perspective]
 **Plans**: [Number of plans]
 
 Plans:
@@ -79,7 +81,10 @@ Plans:
 ### Phase 4: [Name]
 **Goal**: [What this phase delivers]
 **Depends on**: Phase 3
-**Research**: Unlikely (internal patterns)
+**Requirements**: [REQ-09, REQ-10]
+**Success Criteria** (what must be TRUE):
+  1. [Observable behavior from user perspective]
+  2. [Observable behavior from user perspective]
 **Plans**: [Number of plans]
 
 Plans:
@@ -100,7 +105,7 @@ Phases execute in numeric order: 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 
 <guidelines>
 **Initial planning (v1.0):**
-- Phase count depends on depth setting (quick: 3-5, standard: 5-8, comprehensive: 8-12)
+- Phase count depends on granularity setting (coarse: 3-5, standard: 5-8, fine: 8-12)
 - Each phase delivers something coherent
 - Phases can have 1+ plans (split if >3 tasks or multiple subsystems)
 - Plans use naming: {phase}-{plan}-PLAN.md (e.g., 01-02-PLAN.md)
@@ -108,11 +113,12 @@ Phases execute in numeric order: 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 - Progress table updated by execute workflow
 - Plan count can be "TBD" initially, refined during planning
 
-**Research flags:**
-- `Research: Likely` - External APIs, new libraries, architectural decisions
-- `Research: Unlikely` - Internal patterns, CRUD operations, established conventions
-- Include `Research topics:` when Likely
-- Flags are hints, not mandates - validate at planning time
+**Success criteria:**
+- 2-5 observable behaviors per phase (from user's perspective)
+- Cross-checked against requirements during roadmap creation
+- Flow downstream to `must_haves` in plan-phase
+- Verified by verify-phase after execution
+- Format: "User can [action]" or "[Thing] works/exists"
 
 **After milestones ship:**
 - Collapse completed milestones in `<details>` tags

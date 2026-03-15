@@ -38,7 +38,7 @@ patterns-established:
   - "Pattern 1: description"
   - "Pattern 2: description"
 
-issues-created: [ISS-XXX, ISS-YYY] # From ISSUES.md if any
+requirements-completed: []  # REQUIRED — Copy ALL requirement IDs from this plan's `requirements` frontmatter field.
 
 # Metrics
 duration: Xmin
@@ -99,21 +99,26 @@ _Note: TDD tasks may have multiple commits (test → feat → refactor)_
 
 [... repeat for each auto-fix ...]
 
-### Deferred Enhancements
-
-Logged to .planning/ISSUES.md for future consideration:
-- ISS-XXX: [Brief description] (discovered in Task [N])
-- ISS-XXX: [Brief description] (discovered in Task [N])
-
 ---
 
-**Total deviations:** [N] auto-fixed ([breakdown by rule]), [N] deferred
+**Total deviations:** [N] auto-fixed ([breakdown by rule])
 **Impact on plan:** [Brief assessment - e.g., "All auto-fixes necessary for correctness/security. No scope creep."]
 
 ## Issues Encountered
 [Problems and how they were resolved, or "None"]
 
 [Note: "Deviations from Plan" documents unplanned work that was handled automatically via deviation rules. "Issues Encountered" documents problems during planned work that required problem-solving.]
+
+## User Setup Required
+
+[If USER-SETUP.md was generated:]
+**External services require manual configuration.** See [{phase}-USER-SETUP.md](./{phase}-USER-SETUP.md) for:
+- Environment variables to add
+- Dashboard configuration steps
+- Verification commands
+
+[If no USER-SETUP.md:]
+None - no external service configuration required.
 
 ## Next Phase Readiness
 [What's ready for next phase]
@@ -139,7 +144,7 @@ Logged to .planning/ISSUES.md for future consideration:
 
 **Patterns:** Established conventions future phases should maintain.
 
-**Population:** Frontmatter is populated during summary creation in execute-phase.md. See `<step name="create_summary">` for field-by-field guidance.
+**Population:** Frontmatter is populated during summary creation in execute-plan.md. See `<step name="create_summary">` for field-by-field guidance.
 </frontmatter_guidance>
 
 <one_liner_rules>
@@ -211,15 +216,9 @@ The one-liner should tell someone what actually shipped.
 - **Verification:** Import succeeds, build passes
 - **Committed in:** def456g (Task 4 commit)
 
-### Deferred Enhancements
-
-Logged to .planning/ISSUES.md for future consideration:
-- ISS-001: Add rate limiting to login endpoint (discovered in Task 2)
-- ISS-002: Improve token refresh UX with auto-retry on 401 (discovered in Task 5)
-
 ---
 
-**Total deviations:** 2 auto-fixed (1 missing critical, 1 blocking), 2 deferred
+**Total deviations:** 2 auto-fixed (1 missing critical, 1 blocking)
 **Impact on plan:** Both auto-fixes essential for security and functionality. No scope creep.
 
 ## Issues Encountered
@@ -236,38 +235,14 @@ Logged to .planning/ISSUES.md for future consideration:
 </example>
 
 <guidelines>
-**When to create:**
-- After completing each phase plan
-- Required output from execute-phase workflow
-- Documents what actually happened vs what was planned
+**Frontmatter:** MANDATORY - complete all fields. Enables automatic context assembly for future planning.
 
-**Frontmatter completion:**
-- MANDATORY: Complete all frontmatter fields during summary creation
-- See <frontmatter_guidance> for field purposes
-- Frontmatter enables automatic context assembly for future planning
-
-**One-liner requirements:**
-- Must be substantive (describe what shipped, not "phase complete")
-- Should tell someone what was accomplished
-- Examples: "JWT auth with refresh rotation using jose library" not "Authentication implemented"
-
-**Performance tracking:**
-- Include duration, start/end timestamps
-- Used for velocity metrics in STATE.md
-
-**Deviations section:**
-- Documents unplanned work handled via deviation rules
-- Separate from "Issues Encountered" (which is planned work problems)
-- Auto-fixed issues: What was wrong, how fixed, verification
-- Deferred enhancements: Logged to ISSUES.md with ISS-XXX numbers
+**One-liner:** Must be substantive. "JWT auth with refresh rotation using jose library" not "Authentication implemented".
 
 **Decisions section:**
-- Key decisions made during execution
-- Include rationale (why this choice)
+- Key decisions made during execution with rationale
 - Extracted to STATE.md accumulated context
 - Use "None - followed plan as specified" if no deviations
 
-**After creation:**
-- STATE.md updated with position, decisions, issues
-- Next plan can reference decisions made
+**After creation:** STATE.md updated with position, decisions, issues.
 </guidelines>
